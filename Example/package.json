@@ -1,0 +1,28 @@
+{
+  "name": "audiotest",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "postinstall": "yarn run clean",
+    "clean": "rm -r node_modules/react-native-audio-record/{node_modules,Example}",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "buffer": "^5.1.0",
+    "react": "16.3.1",
+    "react-native": "0.55.2",
+    "react-native-audio-record": "file:../",
+    "react-native-permissions": "^1.1.1",
+    "react-native-sound": "^0.10.9"
+  },
+  "devDependencies": {
+    "babel-jest": "22.4.3",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "22.4.3",
+    "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

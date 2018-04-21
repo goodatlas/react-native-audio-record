@@ -1,0 +1,16 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "env": {
+    "es6": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 120,
+        "singleQuote": true
+      }
+    ]
+  }
+}
