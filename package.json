@@ -1,6 +1,6 @@
 {
   "name": "react-native-audio-record",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Audio record buffers for React Native",
   "author": "Vinay",
   "license": "MIT",

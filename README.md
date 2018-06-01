@@ -41,9 +41,10 @@ chunk = Buffer.from(data, 'base64');
 Don't forget to add `NSMicrophoneUsageDescription` in `Info.plist` for iOS.
 
 ## Example
-Check `Example` folder for a sample app which uses
-- [react-native-permissions](https://github.com/yonahforst/react-native-permissions) to get microphone permission
-- [react-native-sound](https://github.com/zmxv/react-native-sound) to playback recorded audio file.
+`Example` folder contain sample apps for recording (using this module) and playback (using 3rd party modules)
+- `App1.js` - uses [react-native-sound](https://github.com/zmxv/react-native-sound) for playback and pause
+- `App2.js` - uses [react-native-video](https://github.com/react-native-community/react-native-video) for playback, pause and report progress
+- `App3.js` - uses [react-native-audio-player-recorder](https://github.com/Shinetechchina/react-native-audio-player-recorder) for playback, pause and report progress
 
 ## Credits/References
 I'm not a native app developer. Most of the code is taken from online resources.

@@ -3302,6 +3302,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+keymirror@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/keymirror/-/keymirror-0.1.1.tgz#918889ea13f8d0a42e7c557250eee713adc95c35"
+
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -4243,7 +4247,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -4310,8 +4314,12 @@ react-is@^16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.1.tgz#ee66e6d8283224a83b3030e110056798488359ba"
 
+"react-native-audio-player-recorder@https://github.com/Shinetechchina/react-native-audio-player-recorder":
+  version "2.0.0"
+  resolved "https://github.com/Shinetechchina/react-native-audio-player-recorder#d9d8704fea1babbcf5ebd5399b00ab688e96b286"
+
 "react-native-audio-record@file:..":
-  version "1.0.0"
+  version "0.1.0"
 
 react-native-permissions@^1.1.1:
   version "1.1.1"
@@ -4320,6 +4328,13 @@ react-native-permissions@^1.1.1:
 react-native-sound@^0.10.9:
   version "0.10.9"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.9.tgz#6b00b0f4afd017cde09fbb9d171df1b5d5b851a8"
+
+react-native-video@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-2.1.1.tgz#cb07d911a24292a04279478722be1076ebc0ac6e"
+  dependencies:
+    keymirror "0.1.1"
+    prop-types "^15.5.10"
 
 react-native@0.55.2:
   version "0.55.2"
