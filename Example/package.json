@@ -4,25 +4,27 @@
   "private": true,
   "scripts": {
     "postinstall": "yarn run clean",
-    "clean": "rm -r node_modules/react-native-audio-record/{node_modules,Example}",
+    "clean": "rm -rf node_modules/react-native-audio-record/{.git,node_modules,Example}",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
-    "buffer": "^5.1.0",
-    "react": "16.3.1",
-    "react-native": "0.55.2",
+    "buffer": "^5.2.1",
+    "react": "16.6.1",
+    "react-native": "0.57.7",
     "react-native-audio-player-recorder": "https://github.com/Shinetechchina/react-native-audio-player-recorder",
     "react-native-audio-record": "file:../",
     "react-native-permissions": "^1.1.1",
     "react-native-sound": "^0.10.9",
-    "react-native-video": "^2.1.1"
+    "react-native-video": "^4.1.0"
   },
   "devDependencies": {
-    "babel-jest": "22.4.3",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "22.4.3",
-    "react-test-renderer": "16.3.1"
+    "@babel/core": "^7.1.6",
+    "babel-core": "^6.26.3",
+    "babel-jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.49.2",
+    "jest": "23.6.0",
+    "react-test-renderer": "16.6.1"
   },
   "jest": {
     "preset": "react-native"

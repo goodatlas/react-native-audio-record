@@ -28,6 +28,7 @@ export default class App extends Component {
 
     AudioRecord.on('data', data => {
       const chunk = Buffer.from(data, 'base64');
+      console.log('chunk size', chunk.byteLength);
       // do something with audio chunk
     });
   }
