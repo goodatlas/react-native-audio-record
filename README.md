@@ -38,7 +38,7 @@ Use 3rd-party module like [buffer](https://www.npmjs.com/package/buffer) to deco
 import { Buffer } from 'buffer';
 chunk = Buffer.from(data, 'base64');
 ```
-Don't forget to add `NSMicrophoneUsageDescription` in `Info.plist` for iOS.
+Don't forget to add microphone permission in your app.
 
 ## Example
 `Example` folder contain sample apps for recording (using this module) and playback (using 3rd party modules)
