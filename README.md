@@ -16,6 +16,7 @@ const options = {
   sampleRate: 16000,  // default 44100
   channels: 1,        // 1 or 2, default 1
   bitsPerSample: 16,  // 8 or 16, default 16
+  audioSource: 6,     // android only (see below)
   wavFile: 'test.wav' // default 'audio.wav'
 };
 
@@ -31,6 +32,8 @@ AudioRecord.on('data', data => {
   // base64-encoded audio data chunks
 });
 ```
+
+For `audioSource` use one of the constant values from [here](https://developer.android.com/reference/android/media/MediaRecorder.AudioSource). Default value is 6 (`VOICE_RECOGNITION`).
 
 Use 3rd-party module like [buffer](https://www.npmjs.com/package/buffer) to decode base64 data. Example -
 ```js

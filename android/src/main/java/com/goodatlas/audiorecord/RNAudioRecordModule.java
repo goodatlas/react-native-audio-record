@@ -26,6 +26,7 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
     private int sampleRateInHz;
     private int channelConfig;
     private int audioFormat;
+    private int audioSource;
 
     private AudioRecord recorder;
     private int bufferSize;
@@ -66,6 +67,11 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
             }
         }
 
+        audioSource = AudioSource.VOICE_RECOGNITION;
+        if (options.hasKey("audioSource")) {
+            audioSource = options.getInt("audioSource");
+        }
+
         String documentDirectoryPath = getReactApplicationContext().getFilesDir().getAbsolutePath();
         outFile = documentDirectoryPath + "/" + "audio.wav";
         tmpFile = documentDirectoryPath + "/" + "temp.pcm";
@@ -79,7 +85,7 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
 
         bufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
         int recordingBufferSize = bufferSize * 3;
-        recorder = new AudioRecord(AudioSource.VOICE_RECOGNITION, sampleRateInHz, channelConfig, audioFormat, recordingBufferSize);
+        recorder = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat, recordingBufferSize);
     }
 
     @ReactMethod

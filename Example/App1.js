@@ -37,7 +37,7 @@ export default class App extends Component {
     const p = await Permissions.check('microphone');
     console.log('permission check', p);
     if (p === 'authorized') return;
-    this.requestPermission();
+    return this.requestPermission();
   };
 
   requestPermission = async () => {
