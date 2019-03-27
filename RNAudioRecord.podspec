@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.description    = package['description']
   s.license        = package['license']
   s.author         = package['author']
-  s.homepage       = package['homepage']
+  s.homepage       = "https://github.com/goodatlas/react-native-audio-record"
   s.source         = { :git => 'https://github.com/goodatlas/react-native-audio-record.git' }
 
   s.requires_arc   = true
