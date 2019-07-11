@@ -30,7 +30,8 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
 
     private AudioRecord recorder;
     private int bufferSize;
-    private boolean isRecording;
+    private boolean recording;
+    private boolean audioWritten;
 
     private String tmpFile;
     private String outFile;
@@ -80,7 +81,8 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
             outFile = documentDirectoryPath + "/" + fileName;
         }
 
-        isRecording = false;
+        setRecording(false);
+        setAudioWritten(false);
         eventEmitter = reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
 
         bufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
@@ -90,7 +92,7 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void start() {
-        isRecording = true;
+        setRecording(true);
         recorder.startRecording();
 
         Thread recordingThread = new Thread(new Runnable() {
@@ -102,7 +104,7 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
                     byte[] buffer = new byte[bufferSize];
                     FileOutputStream os = new FileOutputStream(tmpFile);
 
-                    while (isRecording) {
+                    while (isRecording()) {
                         bytesRead = recorder.read(buffer, 0, buffer.length);
 
                         // skip first 2 buffers to eliminate "click sound"
@@ -126,9 +128,27 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void stop(Promise promise) {
-        isRecording = false;
-        promise.resolve(outFile);
+    public void stop(final Promise promise) {
+        setRecording(false);
+        Thread recordingThread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    while (!isAudioWritten()) {
+                        try {
+                            Thread.sleep(10);
+                        } catch(InterruptedException e){
+                            e.printStackTrace();
+                        }
+                    }
+                    setAudioWritten(false);
+                    promise.resolve(outFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        recordingThread.start();
     }
 
     private void saveAsWav() {
@@ -151,6 +171,7 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
             in.close();
             out.close();
             deleteTempFile();
+            setAudioWritten(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -218,5 +239,21 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
     private void deleteTempFile() {
         File file = new File(tmpFile);
         file.delete();
+    }
+
+    private synchronized boolean isAudioWritten() {
+        return audioWritten;
+    }
+
+    private synchronized void setAudioWritten(boolean audioWritten) {
+        this.audioWritten = audioWritten;
+    }
+
+    private synchronized boolean isRecording() {
+        return recording;
+    }
+
+    private synchronized void setRecording(boolean recording) {
+        this.recording = recording;
     }
 }
