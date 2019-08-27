@@ -8,9 +8,18 @@ declare module "react-native-audio-record" {
 
   export interface Options {
     sampleRate: number
-    channels: number // 1 | 2
-    bitsPerSample: number // 8 | 16
-    audioSource?: number // 6
+    /**
+     * - `1 | 2`
+     */
+    channels: number
+    /**
+     * - `8 | 16`
+     */
+    bitsPerSample: number
+    /**
+     * - `6`
+     */
+    audioSource?: number
     wavFile: string
   }
 
