@@ -13,6 +13,7 @@ typedef struct {
     UInt32                      bufferByteSize;
     SInt64                      mCurrentPacket;
     bool                        mIsRunning;
+    bool                        saveWavBoolean;
 } AQRecordState;
 
 @interface RNAudioRecord : RCTEventEmitter <RCTBridgeModule>

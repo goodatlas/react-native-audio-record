@@ -31,6 +31,7 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
     private AudioRecord recorder;
     private int bufferSize;
     private boolean isRecording;
+    private boolean saveWavBoolean;
 
     private String tmpFile;
     private String outFile;
@@ -71,6 +72,12 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
         audioSource = AudioSource.VOICE_RECOGNITION;
         if (options.hasKey("audioSource")) {
             audioSource = options.getInt("audioSource");
+        }
+
+        if (options.hasKey("saveWavBoolean")) {
+            saveWavBoolean = options.getBoolean("saveWavBoolean");
+        } else {
+            saveWavBoolean = false;
         }
 
         String documentDirectoryPath = getReactApplicationContext().getFilesDir().getAbsolutePath();
@@ -117,7 +124,9 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
 
                     recorder.stop();
                     os.close();
-                    saveAsWav();
+                    if (saveWavBoolean) {
+                        saveAsWav();
+                    }
                     stopRecordingPromise.resolve(outFile);
                 } catch (Exception e) {
                     e.printStackTrace();

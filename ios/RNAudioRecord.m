@@ -16,6 +16,8 @@ RCT_EXPORT_METHOD(init:(NSDictionary *) options) {
     _recordState.mDataFormat.mFormatID          = kAudioFormatLinearPCM;
     _recordState.mDataFormat.mFormatFlags       = _recordState.mDataFormat.mBitsPerChannel == 8 ? kLinearPCMFormatFlagIsPacked : (kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked);
 
+    _recordState.saveWavBoolean     = options[@"saveWavBoolean"] == nil ? false : options[@"saveWavBoolean"];
+
     
     _recordState.bufferByteSize = 2048;
     _recordState.mSelf = self;
@@ -35,10 +37,12 @@ RCT_EXPORT_METHOD(start) {
     _recordState.mIsRunning = true;
     _recordState.mCurrentPacket = 0;
     
-    CFURLRef url = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef)_filePath, NULL);
-    AudioFileCreateWithURL(url, kAudioFileWAVEType, &_recordState.mDataFormat, kAudioFileFlags_EraseFile, &_recordState.mAudioFile);
-    CFRelease(url);
-    
+    if (_recordState.saveWavBoolean) {
+        CFURLRef url = CFURLCreateWithString(kCFAllocatorDefault, (CFStringRef)_filePath, NULL);
+        AudioFileCreateWithURL(url, kAudioFileWAVEType, &_recordState.mDataFormat, kAudioFileFlags_EraseFile, &_recordState.mAudioFile);
+        CFRelease(url);
+    }
+
     AudioQueueNewInput(&_recordState.mDataFormat, HandleInputBuffer, &_recordState, NULL, NULL, 0, &_recordState.mQueue);
     for (int i = 0; i < kNumberBuffers; i++) {
         AudioQueueAllocateBuffer(_recordState.mQueue, _recordState.bufferByteSize, &_recordState.mBuffers[i]);
@@ -54,16 +58,21 @@ RCT_EXPORT_METHOD(stop:(RCTPromiseResolveBlock)resolve
         _recordState.mIsRunning = false;
         AudioQueueStop(_recordState.mQueue, true);
         AudioQueueDispose(_recordState.mQueue, true);
-        AudioFileClose(_recordState.mAudioFile);
+       if (_recordState.saveWavBoolean) {
+            AudioFileClose(_recordState.mAudioFile);
+       }
     }
-    resolve(_filePath);
-
+   if (_recordState.saveWavBoolean) {
+        resolve(_filePath);
+   }
     // revert the audio session to Playback
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_filePath error:nil] fileSize];
-    RCTLogInfo(@"file path %@", _filePath);
-    RCTLogInfo(@"file size %llu", fileSize);
+   if (saveWavBoolean) {
+        unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_filePath error:nil] fileSize];
+        RCTLogInfo(@"file path %@", _filePath);
+        RCTLogInfo(@"file size %llu", fileSize);
+   }
 }
 
 void HandleInputBuffer(void *inUserData,
