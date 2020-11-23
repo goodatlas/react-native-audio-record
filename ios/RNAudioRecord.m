@@ -68,7 +68,7 @@ RCT_EXPORT_METHOD(stop:(RCTPromiseResolveBlock)resolve
     // revert the audio session to Playback
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     
-   if (saveWavBoolean) {
+   if (_recordState.saveWavBoolean) {
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_filePath error:nil] fileSize];
         RCTLogInfo(@"file path %@", _filePath);
         RCTLogInfo(@"file size %llu", fileSize);
