@@ -110,6 +110,23 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
                         // skip first 2 buffers to eliminate "click sound"
                         if (bytesRead > 0 && ++count > 2) {
                             base64Data = Base64.encodeToString(buffer, Base64.NO_WRAP);
+                            // Check decibels in 16 bit
+                            if (audioFormat == AudioFormat.ENCODING_PCM_16BIT) {
+                                double p2 = buffer[buffer.length-1];
+                                double decibel;
+                                if (p2==0) {
+                                    decibel=Double.NEGATIVE_INFINITY;
+                                    eventEmitter.emit("decibel", decibel);
+                                } else {
+                                    decibel = 20.0*Math.log10(p2/65535.0);
+                                    if (Double.isNaN(decibel)) {
+                                        eventEmitter.emit("decibel", Double.NEGATIVE_INFINITY);
+                                    } else {
+                                        eventEmitter.emit("decibel", decibel);
+                                    }
+                                }
+                                
+                            }
                             eventEmitter.emit("data", base64Data);
                             os.write(buffer, 0, bytesRead);
                         }
