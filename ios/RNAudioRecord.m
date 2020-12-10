@@ -1,5 +1,10 @@
 #import "RNAudioRecord.h"
 
+@interface RNAudioRecord ()
+@property (nonatomic, nullable, copy) AVAudioSessionCategory previousCategory;
+@end
+
+
 @implementation RNAudioRecord
 
 RCT_EXPORT_MODULE();
@@ -28,6 +33,8 @@ RCT_EXPORT_METHOD(init:(NSDictionary *) options) {
 RCT_EXPORT_METHOD(start) {
     RCTLogInfo(@"start");
 
+    [self savePreviousCategory];
+    
     // most audio players set session category to "Playback", record won't work in this mode
     // therefore set session category to "Record" before recording
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error:nil];
@@ -56,6 +63,7 @@ RCT_EXPORT_METHOD(stop:(RCTPromiseResolveBlock)resolve
         AudioQueueDispose(_recordState.mQueue, true);
         AudioFileClose(_recordState.mAudioFile);
     }
+    [self restorePreviousCategory];
     resolve(_filePath);
     unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_filePath error:nil] fileSize];
     RCTLogInfo(@"file path %@", _filePath);
@@ -101,6 +109,17 @@ void HandleInputBuffer(void *inUserData,
 - (void)dealloc {
     RCTLogInfo(@"dealloc");
     AudioQueueDispose(_recordState.mQueue, true);
+}
+
+- (void)savePreviousCategory {
+    self.previousCategory = [AVAudioSession sharedInstance].category;
+}
+
+- (void)restorePreviousCategory {
+    if (self.previousCategory) {
+        [[AVAudioSession sharedInstance] setCategory:self.previousCategory error:nil];
+        self.previousCategory = nil;
+    }
 }
 
 @end
