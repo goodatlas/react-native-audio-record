@@ -1,9 +1,11 @@
+import { EmitterSubscription } from 'react-native';
+
 declare module "react-native-audio-record" {
   export interface IAudioRecord {
     init: (options: Options) => void
     start: () => void
     stop: () => Promise<string>
-    on: (event: "data", callback: (data: string) => void) => void
+    on: (event: "data", callback: (data: string) => void) => EmitterSubscription
   }
 
   export interface Options {
