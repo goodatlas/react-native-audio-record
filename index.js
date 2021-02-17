@@ -5,7 +5,7 @@ const EventEmitter = new NativeEventEmitter(RNAudioRecord);
 const AudioRecord = {};
 
 AudioRecord.init = options => RNAudioRecord.init(options);
-AudioRecord.start = () => RNAudioRecord.start();
+AudioRecord.start = playbackOptions => RNAudioRecord.start(playbackOptions);
 AudioRecord.stop = () => RNAudioRecord.stop();
 
 const eventsMap = {

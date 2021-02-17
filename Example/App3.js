@@ -65,7 +65,7 @@ export default class App extends Component {
   start = () => {
     console.log('start record');
     this.setState({ audioFile: '', recording: true, loaded: false });
-    AudioRecord.start();
+    AudioRecord.start({ playbackType: 'PlayAndRecord', allowHaptics: false });
   };
 
   stop = async () => {

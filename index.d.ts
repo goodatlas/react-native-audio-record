@@ -1,7 +1,7 @@
 declare module "react-native-audio-record" {
   export interface IAudioRecord {
     init: (options: Options) => void
-    start: () => void
+    start: (playbackOptions: PlaybackOptions) => void
     stop: () => Promise<string>
     on: (event: "data", callback: (data: string) => void) => void
   }
@@ -23,7 +23,19 @@ declare module "react-native-audio-record" {
     wavFile: string
   }
 
-  const AudioRecord: IAudioRecord
+  // Only these categories are really necessary for this library. Others do not allow recording at all.
+  enum Category {
+    Record = "Record",
+    PlayAndRecord = "PlayAndRecord",
+    MultiRoute = "MultiRoute",
+  }
+
+  export interface PlaybackOptions {
+    playbackType: Category
+    allowHaptics: boolean
+  }
+
+  const AudioRecord: IAudioRecord;
 
   export default AudioRecord;
 }
