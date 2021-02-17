@@ -25,12 +25,27 @@ RCT_EXPORT_METHOD(init:(NSDictionary *) options) {
     _filePath = [NSString stringWithFormat:@"%@/%@", docDir, fileName];
 }
 
-RCT_EXPORT_METHOD(start) {
+RCT_EXPORT_METHOD(start:(NSDictionary *) playbackOptions) {
     RCTLogInfo(@"start");
 
     // most audio players set session category to "Playback", record won't work in this mode
-    // therefore set session category to "Record" before recording
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error:nil];
+    // therefore set session category to the desired category before recording
+    // read more: https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/AudioSessionCategoriesandModes/AudioSessionCategoriesandModes.html#//apple_ref/doc/uid/TP40007875-CH10
+     switch(playbackOptions[@"playbackType"]) {
+        case "PlayAndRecord" :
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+            break;
+        case "MultiRoute" :
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryMultiRoute error:nil];
+            break;
+        default :
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error:nil];
+            break;
+    }
+
+    if (playbackOptions[@"allowHaptics"] == true) {
+        [[AVAudioSession sharedInstance] setAllowHapticsAndSystemSoundsDuringRecording:true error:nil];
+    }
 
     _recordState.mIsRunning = true;
     _recordState.mCurrentPacket = 0;

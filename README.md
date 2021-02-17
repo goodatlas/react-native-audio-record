@@ -20,9 +20,14 @@ const options = {
   wavFile: 'test.wav' // default 'audio.wav'
 };
 
+const playbackOptions = {
+  playbackType: 'PlayAndRecord', // Record, PlayAndRecord or MultiRoute
+  allowHaptics: false            // Set to true to allow haptics during recording
+}
+
 AudioRecord.init(options);
 
-AudioRecord.start();
+AudioRecord.start(playbackOptions);
 
 AudioRecord.stop();
 // or to get the wav file path
