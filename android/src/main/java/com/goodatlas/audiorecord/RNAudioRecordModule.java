@@ -48,6 +48,16 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void addListener(String eventName) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+        // Keep: Required for RN built in Event Emitter Calls.
+    }
+
+    @ReactMethod
     public void init(ReadableMap options) {
         sampleRateInHz = 44100;
         if (options.hasKey("sampleRate")) {
