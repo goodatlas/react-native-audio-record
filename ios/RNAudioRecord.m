@@ -30,7 +30,8 @@ RCT_EXPORT_METHOD(start) {
 
     // most audio players set session category to "Playback", record won't work in this mode
     // therefore set session category to "Record" before recording
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error:nil];
+    // use AVAudioSessionCategoryPlayAndRecord to be able to play a sound after
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
 
     _recordState.mIsRunning = true;
     _recordState.mCurrentPacket = 0;
