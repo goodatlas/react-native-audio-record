@@ -32,6 +32,9 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
     private int bufferSize;
     private boolean isRecording;
 
+    //My param
+    private int isSaving = 0;
+
     private String tmpFile;
     private String outFile;
     private Promise stopRecordingPromise;
@@ -81,6 +84,16 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
             outFile = documentDirectoryPath + "/" + fileName;
         }
 
+        if (options.hasKey("isSaving")) {
+            isSaving = options.getInt("isSaving");
+            Log.d("PocSound Get", Integer.toString(isSaving));
+        }
+
+
+
+
+
+
         isRecording = false;
         eventEmitter = reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
 
@@ -117,8 +130,12 @@ public class RNAudioRecordModule extends ReactContextBaseJavaModule {
 
                     recorder.stop();
                     os.close();
-                    saveAsWav();
-                    stopRecordingPromise.resolve(outFile);
+
+                    Log.d("PocSound", Integer.toString(isSaving));
+                    if (isSaving == 1){
+                        saveAsWav();
+                        stopRecordingPromise.resolve(outFile);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
